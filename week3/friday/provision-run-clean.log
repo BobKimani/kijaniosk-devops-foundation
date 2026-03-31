@@ -1,0 +1,24 @@
+[INFO] Phase 1: Detecting existing state
+
+[INFO] Phase 2: Users and groups
+[INFO] All users already configured
+
+[INFO] Phase 3: Directories and ACLs
+[INFO] No changes needed
+
+[INFO] Phase 4: Packages
+[INFO] Packages already up to date
+
+[INFO] Phase 5: Services
+[INFO] Services already configured
+
+[INFO] Phase 6: Firewall
+[INFO] Firewall already matches intended state
+
+[INFO] Phase 7: Journald and logrotate
+[INFO] Configuration already applied
+
+[INFO] Phase 8: Health check
+[PASS] Health file exists
+
+[PASS] Provisioning complete
