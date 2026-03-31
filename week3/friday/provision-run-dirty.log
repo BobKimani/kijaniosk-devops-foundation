@@ -1,0 +1,31 @@
+[INFO] Phase 1: Detecting existing state
+[INFO] User kk-api exists
+[INFO] User kk-payments exists
+[INFO] User kk-logs exists
+
+[INFO] Phase 2: Users and groups
+[INFO] Group kijanikiosk exists
+
+[INFO] Phase 3: Directories and ACLs
+[INFO] Directories already exist, applying correct permissions
+
+[INFO] Phase 4: Packages
+[INFO] nginx already installed
+[INFO] curl already installed
+
+[INFO] Phase 5: Services
+[INFO] kk-api.service overwritten
+[INFO] kk-payments.service created
+[INFO] kk-logs.service created
+
+[INFO] Phase 6: Firewall
+[INFO] UFW reset and rules applied
+
+[INFO] Phase 7: Journald and logrotate
+[INFO] Logrotate configuration applied
+[INFO] Debug passed
+
+[INFO] Phase 8: Health check
+[PASS] Health file created
+
+[PASS] Provisioning complete
