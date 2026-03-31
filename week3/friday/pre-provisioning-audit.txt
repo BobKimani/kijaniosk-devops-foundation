@@ -1,0 +1,47 @@
+PRE-PROVISIONING AUDIT RESULTS
+
+Users:
+kk-api:x:998:998::/home/kk-api:/usr/sbin/nologin
+kk-payments:x:999:999::/home/kk-payments:/usr/sbin/nologin
+kk-logs:x:1000:1000::/home/kk-logs:/usr/sbin/nologin
+
+Group:
+kijanikiosk:x:1001:kk-api,kk-payments,kk-logs
+
+Directories:
+/opt/kijanikiosk exists
+/opt/kijanikiosk/config exists
+/opt/kijanikiosk/shared/logs exists
+
+ACL Findings:
+Missing default ACL entries for kk-payments on shared logs
+Config directory permissions overly permissive
+
+Firewall:
+UFW active with multiple existing rules including deny 3001
+
+Packages:
+Some packages are held (curl)
+nginx already installed
+
+Systemd:
+kk-api.service exists
+kk-payments.service missing
+kk-logs.service missing
+
+Logs:
+Journal not persistent
+Log directory exists with large usage
+
+
+INTERPRETATION OF DIRTY STATE:
+
+- Service users already exist → script must validate instead of recreate
+- Group exists → ensure correct membership
+- ACLs incomplete → must reapply default ACL model
+- UFW rules reflect historical changes → must reset and rebuild
+- Some services already exist → must overwrite safely
+- Package holds present → must detect before install
+- Journald not persistent → must configure explicitly
+
+This confirms system is NOT clean and requires convergence logic.
