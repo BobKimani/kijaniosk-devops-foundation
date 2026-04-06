@@ -1,0 +1,9 @@
+service_name: kk-payments
+service_user: kk-payments
+service_group: kk-payments
+service_port: 9090
+service_description: KijaniKiosk Payments Service
+service_exec_start: /usr/bin/python3 -m http.server 9090
+env_template: payments.env.j2
+service_template: payments.service.j2
+env_file_name: payments-api.env

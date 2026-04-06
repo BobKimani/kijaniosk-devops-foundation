@@ -1,0 +1,31 @@
+[Unit]
+Description={{ service_description }}
+After=network.target
+
+[Service]
+User={{ service_user }}
+Group={{ service_group }}
+WorkingDirectory={{ app_base_dir }}
+EnvironmentFile={{ app_config_dir }}/{{ env_file_name }}
+ExecStart={{ service_exec_start }}
+Restart=always
+RestartSec=5
+
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+MemoryDenyWriteExecute=true
+LockPersonality=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+RemoveIPC=true
+SystemCallArchitectures=native
+ReadWritePaths={{ app_base_dir }} {{ app_log_dir }} {{ app_data_dir }}
+
+[Install]
+WantedBy=multi-user.target
