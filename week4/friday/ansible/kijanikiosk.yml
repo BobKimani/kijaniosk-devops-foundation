@@ -1,0 +1,140 @@
+---
+- name: Configure all KijaniKiosk servers
+  hosts: kijanikiosk
+  become: true
+
+  handlers:
+    - name: reload systemd
+      ansible.builtin.systemd:
+        daemon_reload: true
+
+    - name: restart service
+      ansible.builtin.systemd:
+        name: "{{ service_name }}"
+        state: restarted
+        enabled: true
+
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      ansible.builtin.apt:
+        name: "{{ common_packages }}"
+        state: present
+
+    - name: Ensure service group exists
+      ansible.builtin.group:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ service_accounts }}"
+
+    - name: Ensure service users exist
+      ansible.builtin.user:
+        name: "{{ item }}"
+        group: "{{ item }}"
+        system: true
+        shell: /usr/sbin/nologin
+        create_home: false
+        state: present
+      loop: "{{ service_accounts }}"
+
+    - name: Ensure application base directory exists
+      ansible.builtin.file:
+        path: "{{ app_base_dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Ensure configuration directory exists
+      ansible.builtin.file:
+        path: "{{ app_config_dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Ensure log directory exists
+      ansible.builtin.file:
+        path: "{{ app_log_dir }}"
+        state: directory
+        owner: "{{ service_user }}"
+        group: "{{ service_group }}"
+        mode: "0755"
+
+    - name: Ensure data directory exists
+      ansible.builtin.file:
+        path: "{{ app_data_dir }}"
+        state: directory
+        owner: "{{ service_user }}"
+        group: "{{ service_group }}"
+        mode: "0755"
+
+    - name: Deploy environment file
+      ansible.builtin.template:
+        src: "{{ env_template }}"
+        dest: "{{ app_config_dir }}/{{ env_file_name }}"
+        owner: root
+        group: "{{ service_group }}"
+        mode: "0640"
+      notify: restart service
+
+    - name: Deploy systemd unit file
+      ansible.builtin.template:
+        src: "{{ service_template }}"
+        dest: "/etc/systemd/system/{{ service_name }}.service"
+        owner: root
+        group: root
+        mode: "0644"
+      notify:
+        - reload systemd
+        - restart service
+
+    - name: Ensure service is enabled and started
+      ansible.builtin.systemd:
+        name: "{{ service_name }}"
+        enabled: true
+        state: started
+
+    - name: Allow OpenSSH in UFW
+      community.general.ufw:
+        rule: allow
+        name: OpenSSH
+
+    - name: Allow application port in UFW
+      community.general.ufw:
+        rule: allow
+        port: "{{ service_port }}"
+        proto: tcp
+
+    - name: Enable UFW
+      community.general.ufw:
+        state: enabled
+        policy: deny
+
+    - name: Ensure journald directory exists
+      ansible.builtin.file:
+        path: /var/log/journal
+        state: directory
+        owner: root
+        group: systemd-journal
+        mode: "2755"
+
+    - name: Enable persistent journaling
+      ansible.builtin.lineinfile:
+        path: /etc/systemd/journald.conf
+        regexp: '^#?Storage='
+        line: 'Storage=persistent'
+      notify:
+        - restart service
+
+    - name: Deploy logrotate configuration
+      ansible.builtin.template:
+        src: logrotate-kijanikiosk.j2
+        dest: /etc/logrotate.d/kijanikiosk
+        owner: root
+        group: root
+        mode: "0644"

@@ -1,0 +1,9 @@
+service_name: kk-api
+service_user: kk-api
+service_group: kk-api
+service_port: 8080
+service_description: KijaniKiosk API Service
+service_exec_start: /usr/bin/python3 -m http.server 8080
+env_template: api.env.j2
+service_template: api.service.j2
+env_file_name: api.env
