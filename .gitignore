@@ -13,3 +13,9 @@ crash.log
 
 # Ansible retry files
 *.retry
+
+# Node.js
+node_modules/
+.npmrc
+*.tgz
+coverage/
