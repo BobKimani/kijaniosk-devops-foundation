@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Minimal Node.js project for Jenkins CI practice.",
   "main": "src/index.js",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "test": "jest",
     "build": "echo \"Build completed\"",
