@@ -25,9 +25,26 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Verify') {
+            parallel {
+                stage('Test') {
+                    steps {
+                        sh 'npm test'
+                    }
+                }
+
+                stage('Security Audit') {
+                    steps {
+                        sh 'npm audit --audit-level=high'
+                    }
+                }
+            }
+        }
+
+        stage('Archive') {
             steps {
-                sh 'npm test'
+                sh 'npm pack'
+                archiveArtifacts artifacts: '*.tgz', fingerprint: true
             }
         }
     }
@@ -37,10 +54,13 @@ pipeline {
             cleanWs(deleteDirs: true, disableDeferredWipeout: true)
         }
         success {
-            echo 'Initial CI pipeline run succeeded.'
+            echo 'CI pipeline completed successfully through archive stage.'
         }
         failure {
-            echo 'Initial CI pipeline run failed.'
+            echo 'CI pipeline failed before completing all required stages.'
+        }
+        changed {
+            echo 'Pipeline status changed compared to the previous build.'
         }
     }
 }
