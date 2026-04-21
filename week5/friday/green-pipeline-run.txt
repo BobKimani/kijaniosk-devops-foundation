@@ -23,11 +23,11 @@ Fetching upstream changes from https://github.com/BobKimani/kijaniosk-devops-fou
  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
 Avoid second fetch
  > git rev-parse refs/remotes/origin/feature/week5-ci-pipeline^{commit} # timeout=10
-Checking out Revision da8552435d766f22e1adb0acc9d8c721f30733e8 (refs/remotes/origin/feature/week5-ci-pipeline)
+Checking out Revision 675bb28207e13d37f660f3fb348df078b1023f69 (refs/remotes/origin/feature/week5-ci-pipeline)
  > git config core.sparsecheckout # timeout=10
- > git checkout -f da8552435d766f22e1adb0acc9d8c721f30733e8 # timeout=10
-Commit message: "restricts package contents to app src"
- > git rev-list --no-walk e64e529897c201f4590fe5287d7b127ca9d1b06d # timeout=10
+ > git checkout -f 675bb28207e13d37f660f3fb348df078b1023f69 # timeout=10
+Commit message: "Add small content update for second package version"
+ > git rev-list --no-walk b1736820c422561ed8c8f615877a5de401d072d1 # timeout=10
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] withEnv
@@ -43,51 +43,49 @@ Commit message: "restricts package contents to app src"
 [Pipeline] withDockerContainer
 Jenkins seems to be running inside container ce3d05c3359caebc6ee0e87a13371ed70e3baff83f10c5bc83a429a66065c1cf
 $ docker run -t -d -u 0:0 -u root:root -w /var/jenkins_home/workspace/kijanikiosk-ci-pipeline --volumes-from ce3d05c3359caebc6ee0e87a13371ed70e3baff83f10c5bc83a429a66065c1cf -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** -e ******** node:18.20.4-alpine cat
-$ docker top 8c2c494ae81c682ebc75e569d736a8fa30183299969c1a5881fdfbad6de29380 -eo pid,comm
+$ docker top 3d37683231f62653d2ba1f07e7cf6dbfa8862aaff611d55b51dbb2b3e539989c -eo pid,comm
+[Pipeline] {
+[Pipeline] withEnv
 [Pipeline] {
 [Pipeline] timestamps
 [Pipeline] {
 [Pipeline] timeout
-14:55:48  Timeout set to expire in 10 min
+15:51:02  Timeout set to expire in 10 min
 [Pipeline] {
 [Pipeline] stage
 [Pipeline] { (Lint)
 [Pipeline] sh
-14:55:48  + npm ci
-14:55:50  npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
-
-14:55:51  npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
-14:55:51  npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
-
-14:55:52  npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
-
-14:55:53  npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
-14:55:53  npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
-
-14:55:54  
-14:55:54  added 336 packages, and audited 337 packages in 6s
-14:55:54  
-14:55:54  50 packages are looking for funding
-14:55:54    run `npm fund` for details
-14:55:54  
-14:55:54  found 0 vulnerabilities
+15:51:02  + npm ci
+15:51:04  npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+15:51:05  npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+15:51:05  npm warn deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+15:51:06  npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+15:51:07  npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+15:51:07  npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+15:51:08  
+15:51:08  added 336 packages, and audited 337 packages in 6s
+15:51:08  
+15:51:08  50 packages are looking for funding
+15:51:08    run `npm fund` for details
+15:51:08  
+15:51:08  found 0 vulnerabilities
 [Pipeline] sh
-14:55:54  + npm run lint
-14:55:54  
-14:55:54  > devops-ci-practice-app@1.0.0 lint
-14:55:54  > eslint .
-14:55:54  
+15:51:09  + npm run lint
+15:51:09  
+15:51:09  > devops-ci-practice-app@1.0.0 lint
+15:51:09  > eslint .
+15:51:09  
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] stage
 [Pipeline] { (Build)
 [Pipeline] sh
-14:55:55  + npm run build
-14:55:55  
-14:55:55  > devops-ci-practice-app@1.0.0 build
-14:55:55  > echo "Build completed"
-14:55:55  
-14:55:55  Build completed
+15:51:09  + npm run build
+15:51:09  
+15:51:09  > devops-ci-practice-app@1.0.0 build
+15:51:09  > echo "Build completed"
+15:51:09  
+15:51:09  Build completed
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] stage
@@ -101,28 +99,26 @@ $ docker top 8c2c494ae81c682ebc75e569d736a8fa30183299969c1a5881fdfbad6de29380 -e
 [Pipeline] { (Security Audit)
 [Pipeline] sh
 [Pipeline] sh
-
-14:55:55  + npm test
-14:55:55  
-14:55:55  > devops-ci-practice-app@1.0.0 test
-14:55:55  > jest
-14:55:55  
-14:55:55  + npm audit '--audit-level=high'
-14:55:55  PASS tests/index.test.js
-14:55:55    isPipelineSuccessful
-14:55:55      ✓ returns true when the pipeline status is SUCCESS (1 ms)
-14:55:55      ✓ returns false for non-success pipeline statuses
-14:55:55  
-14:55:55  Test Suites: 1 passed, 1 total
-14:55:55  Tests:       2 passed, 2 total
-14:55:55  Snapshots:   0 total
-14:55:55  Time:        0.137 s
-14:55:55  Ran all test suites.
+15:51:09  + npm test
+15:51:09  
+15:51:09  > devops-ci-practice-app@1.0.0 test
+15:51:09  > jest
+15:51:09  
+15:51:09  + npm audit '--audit-level=high'
+15:51:10  PASS tests/index.test.js
+15:51:10    isPipelineSuccessful
+15:51:10      ✓ returns true when the pipeline status is SUCCESS (1 ms)
+15:51:10      ✓ returns false for non-success pipeline statuses
+15:51:10  
+15:51:10  Test Suites: 1 passed, 1 total
+15:51:10  Tests:       2 passed, 2 total
+15:51:10  Snapshots:   0 total
+15:51:10  Time:        0.139 s
+15:51:10  Ran all test suites.
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] }
-14:55:56  found 0 vulnerabilities
-
+15:51:10  found 0 vulnerabilities
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] }
@@ -132,37 +128,75 @@ $ docker top 8c2c494ae81c682ebc75e569d736a8fa30183299969c1a5881fdfbad6de29380 -e
 [Pipeline] stage
 [Pipeline] { (Archive)
 [Pipeline] sh
-14:55:56  + npm pack
-14:55:56  npm notice
-14:55:56  npm notice package: devops-ci-practice-app@1.0.0
-14:55:56  npm notice Tarball Contents
-14:55:56  npm notice 63B README.md
-14:55:56  npm notice 362B package.json
-14:55:56  npm notice 134B src/index.js
-14:55:56  npm notice Tarball Details
-14:55:56  npm notice name: devops-ci-practice-app
-14:55:56  npm notice version: 1.0.0
-14:55:56  npm notice filename: devops-ci-practice-app-1.0.0.tgz
-14:55:56  npm notice package size: 497 B
-14:55:56  npm notice unpacked size: 559 B
-14:55:56  npm notice shasum: 7ee025800574703303240051bad417dc34a3251b
-14:55:56  npm notice integrity: sha512-ilQjYhjbLAXhY[...]QTWtoXMC+iTrQ==
-14:55:56  npm notice total files: 3
-14:55:56  npm notice
-14:55:56  devops-ci-practice-app-1.0.0.tgz
+15:51:10  + npm version 1.0.0-675bb28 --no-git-tag-version
+15:51:10  v1.0.0-675bb28
+15:51:10  + npm pack
+15:51:11  npm notice
+15:51:11  npm notice package: devops-ci-practice-app@1.0.0-675bb28
+15:51:11  npm notice Tarball Contents
+15:51:11  npm notice 104B README.md
+15:51:11  npm notice 371B package.json
+15:51:11  npm notice 134B src/index.js
+15:51:11  npm notice Tarball Details
+15:51:11  npm notice name: devops-ci-practice-app
+15:51:11  npm notice version: 1.0.0-675bb28
+15:51:11  npm notice filename: devops-ci-practice-app-1.0.0-675bb28.tgz
+15:51:11  npm notice package size: 529 B
+15:51:11  npm notice unpacked size: 609 B
+15:51:11  npm notice shasum: 2416ca5933c1967873c67426da0a6c71705b66a1
+15:51:11  npm notice integrity: sha512-K/IyVv4PcCjPO[...]kHTNiujH5ZD4g==
+15:51:11  npm notice total files: 3
+15:51:11  npm notice
+15:51:11  devops-ci-practice-app-1.0.0-675bb28.tgz
 [Pipeline] archiveArtifacts
-14:55:56  Archiving artifacts
-14:55:56  Recording fingerprints
+15:51:11  Archiving artifacts
+15:51:11  Recording fingerprints
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Publish)
+[Pipeline] withCredentials
+15:51:11  Masking supported pattern matches of $NEXUS_PASSWORD
+[Pipeline] {
+[Pipeline] sh
+15:51:11  + printf '%s' ****
+15:51:11  + base64
+15:51:11  + tr -d '\n'
+15:51:11  + cat
+15:51:11  + npm publish '--registry=http://192.168.100.228:8081/repository/npm-hosted/'
+15:51:11  npm notice
+15:51:11  npm notice package: devops-ci-practice-app@1.0.0-675bb28
+15:51:11  npm notice Tarball Contents
+15:51:11  npm notice 104B README.md
+15:51:11  npm notice 371B package.json
+15:51:11  npm notice 134B src/index.js
+15:51:11  npm notice Tarball Details
+15:51:11  npm notice name: devops-ci-practice-app
+15:51:11  npm notice version: 1.0.0-675bb28
+15:51:11  npm notice filename: devops-ci-practice-app-1.0.0-675bb28.tgz
+15:51:11  npm notice package size: 529 B
+15:51:11  npm notice unpacked size: 609 B
+15:51:11  npm notice shasum: 2416ca5933c1967873c67426da0a6c71705b66a1
+15:51:11  npm notice integrity: sha512-K/IyVv4PcCjPO[...]kHTNiujH5ZD4g==
+15:51:11  npm notice total files: 3
+15:51:11  npm notice
+15:51:11  npm notice Publishing to http://192.168.100.228:8081/repository/npm-hosted/ with tag latest and default access
+15:51:11  + devops-ci-practice-app@1.0.0-675bb28
+15:51:11  + rm -f .npmrc
+[Pipeline] }
+[Pipeline] // withCredentials
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] stage
 [Pipeline] { (Declarative: Post Actions)
 [Pipeline] cleanWs
-14:55:56  [WS-CLEANUP] Deleting project workspace...
-14:55:56  [WS-CLEANUP] Deferred wipeout is disabled by the job configuration...
-14:55:56  [WS-CLEANUP] done
+15:51:11  [WS-CLEANUP] Deleting project workspace...
+15:51:11  [WS-CLEANUP] Deferred wipeout is disabled by the job configuration...
+15:51:11  [WS-CLEANUP] done
 [Pipeline] echo
-14:55:56  CI pipeline completed successfully through archive stage.
+15:51:11  Artifact published successfully with version 1.0.0-675bb28
+[Pipeline] echo
+15:51:11  Nexus URL: http://192.168.100.228:8081/repository/npm-hosted/
 [Pipeline] }
 [Pipeline] // stage
 [Pipeline] }
@@ -170,9 +204,10 @@ $ docker top 8c2c494ae81c682ebc75e569d736a8fa30183299969c1a5881fdfbad6de29380 -e
 [Pipeline] }
 [Pipeline] // timestamps
 [Pipeline] }
-$ docker stop --time=1 8c2c494ae81c682ebc75e569d736a8fa30183299969c1a5881fdfbad6de29380
-
-$ docker rm -f --volumes 8c2c494ae81c682ebc75e569d736a8fa30183299969c1a5881fdfbad6de29380
+[Pipeline] // withEnv
+[Pipeline] }
+$ docker stop --time=1 3d37683231f62653d2ba1f07e7cf6dbfa8862aaff611d55b51dbb2b3e539989c
+$ docker rm -f --volumes 3d37683231f62653d2ba1f07e7cf6dbfa8862aaff611d55b51dbb2b3e539989c
 [Pipeline] // withDockerContainer
 [Pipeline] }
 [Pipeline] // withEnv
