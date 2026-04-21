@@ -1,0 +1,9 @@
+service_name: kk-logs
+service_user: kk-logs
+service_group: kk-logs
+service_port: 5601
+service_description: KijaniKiosk Logs Service
+service_exec_start: /usr/bin/python3 -m http.server 5601
+env_template: logs.env.j2
+service_template: logs.service.j2
+env_file_name: logs.env

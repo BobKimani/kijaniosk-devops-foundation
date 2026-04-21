@@ -1,0 +1,21 @@
+# Terraform
+week4/friday/terraform/.terraform/
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# Ansible retry files
+*.retry
+
+# Node.js
+node_modules/
+.npmrc
+*.tgz
+coverage/

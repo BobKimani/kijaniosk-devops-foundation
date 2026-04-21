@@ -1,0 +1,10 @@
+{{ app_log_dir }}/*.log {
+    daily
+    missingok
+    rotate {{ logrotate_rotate }}
+    compress
+    delaycompress
+    notifempty
+    copytruncate
+    create 0640 root adm
+}
