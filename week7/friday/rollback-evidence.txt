@@ -1,0 +1,96 @@
+# Week 7 Friday: Automated Rollback Evidence
+
+## Starting condition
+
+Before the fault was introduced, green was live through the proxy.
+
+Active environment before fault:
+green
+
+Previous environment before fault:
+blue
+
+## Monitor output
+
+COMMAND:
+sudo bash /opt/kijanikiosk/scripts/post-deploy-monitor.sh 60
+
+OUTPUT:
+[2026-04-27 13:40:59] Post-deploy monitor started
+[2026-04-27 13:40:59] Confidence window: 60 seconds
+[2026-04-27 13:40:59] Health check passed through proxy: environment=green, version=v1.4.0
+[2026-04-27 13:41:04] Health check passed through proxy: environment=green, version=v1.4.0
+[2026-04-27 13:41:09] Health check passed through proxy: environment=green, version=v1.4.0
+[2026-04-27 13:41:14] Health check failed through proxy. Consecutive failures: 1
+[2026-04-27 13:41:19] Health check failed through proxy. Consecutive failures: 2
+[2026-04-27 13:41:24] Health check failed through proxy. Consecutive failures: 3
+[2026-04-27 13:41:24] Triggering automated rollback
+Rolling back from green to blue
+Current environment: green
+Target environment: blue
+Checking target service: kk-api-blue.service
+Activating nginx config: /etc/nginx/kijanikiosk-blue.conf
+Testing nginx configuration
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+Reloading nginx
+Switch complete
+Active environment: blue
+Previous environment: green
+Rollback complete
+Active environment: blue
+Previous environment: green
+[2026-04-27 13:41:24] Waiting briefly for proxy reload to settle
+[2026-04-27 13:41:26] Verifying rollback through proxy
+[2026-04-27 13:41:26] Blue is healthy through the proxy. Rollback confirmed.
+
+## Fault introduction
+
+COMMAND:
+date '+T0=%Y-%m-%d %H:%M:%S'
+sudo systemctl stop kk-api-green.service
+
+OUTPUT:
+T0=2026-04-27 13:41:10
+
+## Timestamp markers
+
+T0 - Fault introduced:
+2026-04-27 13:41:10
+
+T1 - Monitor triggered automated rollback:
+2026-04-27 13:41:24
+
+T2 - Rollback confirmed:
+2026-04-27 13:41:26
+
+## Duration calculation
+
+T0 to T2:
+16 seconds
+
+Requirement:
+Under 90 seconds
+
+Result:
+PASS
+
+## Post-rollback verification
+
+COMMAND:
+curl -s http://127.0.0.1:80/health | python3 -m json.tool
+cat /opt/kijanikiosk/.active-env
+cat /opt/kijanikiosk/.previous-env
+
+OUTPUT:
+{
+    "status": "ok",
+    "version": "v1.3.0",
+    "environment": "blue"
+}
+blue
+green
+
+## Conclusion
+
+The monitor was running before the controlled fault was introduced. After green stopped responding, the monitor detected three consecutive failed health checks, triggered rollback automatically, confirmed blue through the proxy, and left the state files consistent with active=blue and previous=green.

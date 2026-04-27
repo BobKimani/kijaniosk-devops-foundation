@@ -1,0 +1,121 @@
+# switch-cycle.log
+# Week 7 Friday: Complete Blue-to-Green Switch Cycle Evidence
+
+[2026-04-27 13:30:00] Confirm blue and green services are active
+COMMAND:
+systemctl is-active kk-api-blue.service
+systemctl is-active kk-api-green.service
+
+OUTPUT:
+active
+active
+
+[2026-04-27 13:30:00] Confirm direct blue health endpoint
+COMMAND:
+curl -s http://127.0.0.1:3000/health | python3 -m json.tool
+
+OUTPUT:
+{
+    "status": "ok",
+    "version": "v1.3.0",
+    "environment": "blue"
+}
+
+[2026-04-27 13:30:00] Confirm direct green health endpoint
+COMMAND:
+curl -s http://127.0.0.1:3001/health | python3 -m json.tool
+
+OUTPUT:
+{
+    "status": "ok",
+    "version": "v1.4.0",
+    "environment": "green"
+}
+
+[2026-04-27 13:30:00] Confirm proxy is serving blue before switch
+COMMAND:
+curl -s http://127.0.0.1:80/health | python3 -m json.tool
+
+OUTPUT:
+{
+    "status": "ok",
+    "version": "v1.3.0",
+    "environment": "blue"
+}
+
+[2026-04-27 13:30:00] Confirm state files before switch
+COMMAND:
+cat /opt/kijanikiosk/.active-env
+cat /opt/kijanikiosk/.previous-env
+
+OUTPUT:
+blue
+green
+
+[2026-04-27 13:30:00] Execute blue-to-green switch
+COMMAND:
+sudo bash /opt/kijanikiosk/scripts/switch-env.sh green
+
+OUTPUT:
+Current environment: blue
+Target environment: green
+Checking target service: kk-api-green.service
+Activating nginx config: /etc/nginx/kijanikiosk-green.conf
+Testing nginx configuration
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+Reloading nginx
+Switch complete
+Active environment: green
+Previous environment: blue
+
+[2026-04-27 13:30:00] Confirm switch exit code
+COMMAND:
+echo $?
+
+OUTPUT:
+0
+
+[2026-04-27 13:30:02] Confirm proxy is serving green after switch
+COMMAND:
+curl -s http://127.0.0.1:80/health | python3 -m json.tool
+
+OUTPUT:
+{
+    "status": "ok",
+    "version": "v1.4.0",
+    "environment": "green"
+}
+
+[2026-04-27 13:30:02] Confirm state files after switch
+COMMAND:
+cat /opt/kijanikiosk/.active-env
+cat /opt/kijanikiosk/.previous-env
+
+OUTPUT:
+green
+blue
+
+[2026-04-27 13:30:02] Confirm nginx active config references green upstream
+COMMAND:
+cat /etc/nginx/kijanikiosk-active-env.conf
+
+OUTPUT:
+upstream kk-api-green {
+    server 127.0.0.1:3001;
+}
+
+server {
+    listen 80 default_server;
+    server_name _;
+
+    location / {
+        proxy_pass http://kk-api-green;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+Stage 3 result:
+PASS - Blue-to-green switch completed successfully. Proxy health returned v1.4.0, .active-env shows green, .previous-env shows blue, and nginx active config references kk-api-green.
