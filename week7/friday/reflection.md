@@ -1,5 +1,3 @@
-cat > week7/friday/reflection.md <<'EOF'
-
 # Reflection
 
 ## 1. Translation trade-off in the demo
@@ -13,4 +11,3 @@ The most valuable action item from the incident was improving post-deployment mo
 ## 3. What carries forward to Kubernetes
 
 Conceptually, the ideas of health checks, automated rollback, and separating environments carry forward directly into Kubernetes. However, the implementation changes significantly. State files, manual scripts like switch-env.sh, and nginx-based routing become redundant because Kubernetes handles traffic routing, health probes, and rollbacks through deployments and services. The logic remains the same, but responsibility shifts from custom scripts to the platform.
-EOF
