@@ -1,0 +1,14 @@
+=== Self-healing rerun evidence ===
+Deleted pod: kk-payments-98b775c45-7vsfl
+T0=2026-05-06 10:26:34
+T1=2026-05-06 10:27:42
+Recovery time: 68 seconds
+
+=== Final pods after recovery ===
+NAME                          READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+kk-payments-98b775c45-ffvlp   1/1     Running   0          78s   10.244.0.9   minikube   <none>           <none>
+kk-payments-98b775c45-mt9lz   1/1     Running   0          18m   10.244.0.5   minikube   <none>           <none>
+
+=== Deployment after recovery ===
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+kk-payments   2/2     2            2           18m

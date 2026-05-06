@@ -1,0 +1,20 @@
+=== Service ===
+NAME                  TYPE       CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+kk-payments-service   NodePort   10.101.218.202   <none>        3001:30001/TCP   12m
+
+=== Endpoints ===
+NAME                  ENDPOINTS                         AGE
+kk-payments-service   10.244.0.4:3000,10.244.0.5:3000   12m
+
+=== NodePort note ===
+Direct NodePort URL attempted: http://192.168.49.2:30001/health
+On macOS with the Docker driver, Minikube exposes NodePort services through a local tunnel URL.
+
+=== Minikube service tunnel URL ===
+http://127.0.0.1:53401
+
+=== External health check through Minikube service tunnel ===
+{"status":"ok","service":"kk-payments","version":"1.0.0-3765104"}
+
+=== In-cluster DNS health check ===
+{"status":"ok","service":"kk-payments","version":"1.0.0-3765104"}pod "curl-test-evidence" deleted from default namespace

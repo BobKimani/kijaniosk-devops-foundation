@@ -1,0 +1,20 @@
+=== Build command ===
+docker build --no-cache -f week8/friday/Dockerfile.production -t bobkiman1/kk-payments:1.0.0-3765104 .
+
+=== Docker image size ===
+REPOSITORY              TAG             SIZE
+bobkiman1/kk-payments   1.0.0-3765104   96.1MB
+
+=== Runtime user verification ===
+kijani
+
+=== TypeScript compiler check ===
+
+=== Container health endpoint and Docker HEALTHCHECK ===
+d755d384f9a8ab9b44ce4c455e34168c31b50a3176494727f02e72076d65658b
+{"status":"ok","service":"kk-payments","version":"1.0.0-local"}
+"healthy"
+kk-payments-evidence
+
+=== HEALTHCHECK line in Dockerfile.production ===
+56:HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=3 \
