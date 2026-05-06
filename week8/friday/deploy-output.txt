@@ -1,0 +1,14 @@
+=== Deployment apply ===
+kubectl apply -f week8/friday/kk-payments-deployment.yaml
+
+=== Rollout status ===
+deployment "kk-payments" successfully rolled out
+
+=== Pods ===
+NAME                          READY   STATUS    RESTARTS   AGE   IP           NODE       NOMINATED NODE   READINESS GATES
+kk-payments-98b775c45-7vsfl   1/1     Running   0          86s   10.244.0.4   minikube   <none>           <none>
+kk-payments-98b775c45-mt9lz   1/1     Running   0          86s   10.244.0.5   minikube   <none>           <none>
+
+=== Deployment ===
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+kk-payments   2/2     2            2           86s

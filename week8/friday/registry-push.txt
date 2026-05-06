@@ -1,0 +1,24 @@
+=== Version string computation ===
+VERSION=$(node -p "require('./package.json').version")
+GITSHA=$(git rev-parse --short=7 HEAD)
+IMAGE_TAG="${VERSION}-${GITSHA}"
+FULL_IMAGE="${REGISTRY_IMAGE}:${IMAGE_TAG}"
+
+=== Computed values ===
+REGISTRY_IMAGE=bobkiman1/kk-payments
+VERSION=1.0.0
+GITSHA=3765104
+IMAGE_TAG=1.0.0-3765104
+FULL_IMAGE=bobkiman1/kk-payments:1.0.0-3765104
+
+=== Docker push verification ===
+docker push bobkiman1/kk-payments:1.0.0-3765104
+Push completed successfully.
+
+=== Delete local image and pull fresh from registry ===
+docker rmi bobkiman1/kk-payments:1.0.0-3765104
+docker pull bobkiman1/kk-payments:1.0.0-3765104
+
+=== Pulled image verification ===
+REPOSITORY              TAG             SIZE
+bobkiman1/kk-payments   1.0.0-3765104   96.1MB
